@@ -13,7 +13,15 @@ const txValidation = [
     body('source').optional().isIn(['sms', 'manual']).withMessage('Source must be sms or manual')
 ];
 
-// Routes
+// ── SMS Routes ────────────────────────────────────────────────────────────
+// Step 1: Parse raw SMS → returns structured data for confirmation popup
+router.post('/parse-sms', TransactionController.parseSms);
+
+// Step 2a: Auto-save directly from SMS (use when confidence = 'high')
+router.post('/from-sms', TransactionController.createFromSms);
+
+// ── Standard CRUD ─────────────────────────────────────────────────────────
+// Step 2b: Manual/confirmed save after popup
 router.post('/', txValidation, TransactionController.create);
 router.get('/', TransactionController.list);
 router.delete('/:id', TransactionController.remove);
