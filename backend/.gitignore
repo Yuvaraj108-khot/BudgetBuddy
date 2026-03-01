@@ -1,0 +1,45 @@
+# ─── Dependencies ────────────────────────────
+node_modules/
+package-lock.json
+
+# ─── Environment / Secrets ───────────────────
+# NEVER commit these — repo is PUBLIC
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+*.env
+*.secret
+*.key
+secrets/
+config/secrets.json
+
+# ─── Logs ────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── Runtime / Build ─────────────────────────
+dist/
+build/
+.cache/
+tmp/
+
+# ─── OS Files ────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editors ─────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Testing ─────────────────────────────────
+coverage/
+.nyc_output/

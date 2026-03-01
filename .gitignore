@@ -43,3 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# ─── Secrets / Environment (REPO IS PUBLIC — NEVER COMMIT THESE) ───
+.env
+.env.*
+*.env
+*.secret
+*.key
+backend/.env
+backend/node_modules/
+**/secrets/
+**/config/secrets.json
