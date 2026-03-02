@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "db:init": "node src/db/init.js",
     "db:migrate": "node src/db/migrate.js",
     "db:seed": "node src/db/seed.js"
   },
@@ -24,7 +25,12 @@
   "devDependencies": {
     "nodemon": "^3.0.2"
   },
-  "keywords": ["campuscash", "budget", "student", "finance"],
+  "keywords": [
+    "campuscash",
+    "budget",
+    "student",
+    "finance"
+  ],
   "author": "Yuvaraj Khot",
   "license": "MIT"
 }
