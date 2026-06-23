@@ -1,16 +1,16 @@
 import 'package:sqflite/sqflite.dart';
-import 'local_database.dart';
-import '../../models/transaction.dart';
+import '../core/db/local_database.dart';
+import '../../models/transaction.dart' as model;
 
 class LocalRepository {
   // TRANSACTIONS
-  Future<Transaction> insertTransaction(Transaction transaction) async {
+  Future<model.Transaction> insertTransaction(model.Transaction transaction) async {
     final db = await LocalDatabase.instance.database;
     final id = await db.insert('transactions', transaction.toJson());
     return transaction.copyWith(id: id);
   }
 
-  Future<List<Transaction>> getTransactionsByMonth(int month, int year) async {
+  Future<List<model.Transaction>> getTransactionsByMonth(int month, int year) async {
     final db = await LocalDatabase.instance.database;
     final String monthStr = month.toString().padLeft(2, '0');
     final String yearStr = year.toString();
@@ -22,7 +22,7 @@ class LocalRepository {
       orderBy: 'transaction_date DESC',
     );
 
-    return maps.map((map) => Transaction.fromJson(map)).toList();
+    return maps.map((map) => model.Transaction.fromJson(map)).toList();
   }
 
   Future<int> deleteTransaction(int id) async {

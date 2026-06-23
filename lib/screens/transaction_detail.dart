@@ -27,7 +27,7 @@ class TransactionDetailScreen extends StatelessWidget {
             onPressed: () async {
               Navigator.of(ctx).pop();
               final success = await Provider.of<TransactionProvider>(context, listen: false)
-                  .deleteTransaction(transaction.id);
+                  .deleteTransaction(transaction.id!);
               if (success) {
                 // Refresh dashboard too
                 Provider.of<DashboardProvider>(context, listen: false).fetchDashboard();

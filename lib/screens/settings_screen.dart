@@ -5,7 +5,7 @@ import '../core/storage/secure_storage.dart';
 import '../services/sms_sync_service.dart';
 import '../core/theme/app_theme.dart';
 import 'pin_screen.dart';
-import 'login_screen.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -164,7 +164,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 await authProvider.logout();
                 if (mounted) {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                    MaterialPageRoute(builder: (_) => const PinScreen(mode: PinMode.verify)),
                     (route) => false,
                   );
                 }
