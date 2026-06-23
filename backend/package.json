@@ -1,7 +1,7 @@
 {
-  "name": "campuscash-backend",
+  "name": "budgetbuddy-backend",
   "version": "1.0.0",
-  "description": "CampusCash - Smart Automatic Money Tracker Backend for Students",
+  "description": "BudgetBuddy - AI-Powered Automatic Money Tracker Backend for Students",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -11,16 +11,18 @@
     "db:seed": "node src/db/seed.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "pg": "^8.11.3",
-    "dotenv": "^16.3.1",
-    "cors": "^2.8.5",
-    "helmet": "^7.1.0",
-    "express-validator": "^7.0.1",
-    "morgan": "^1.10.0",
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "groq-sdk": "^1.2.1",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "express-rate-limit": "^7.1.5"
+    "morgan": "^1.10.0",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

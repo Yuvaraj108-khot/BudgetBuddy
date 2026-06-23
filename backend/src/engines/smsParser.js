@@ -38,7 +38,10 @@ const PATTERNS = {
     promo: /\b(offer|cashback|reward|discount|loyalty|win|congratulations|avail)\b/i,
 
     // Balance pattern
-    balance: /(?:avl\.?\s*bal(?:ance)?|bal(?:ance)?)\s*(?:rs\.?|inr|₹|:)?\s*([\d,]+(?:\.\d{1,2})?)/i
+    balance: /(?:avl\.?\s*bal(?:ance)?|bal(?:ance)?)\s*(?:rs\.?|inr|₹|:)?\s*([\d,]+(?:\.\d{1,2})?)/i,
+
+    // Reference/transaction ID pattern (e.g. Ref: 123456789, txn ID: 987654)
+    reference: /(?:ref(?:\s*no\.?)?|utr|txn(?:\s*id)?|transaction\s*id|ref\s*number)\s*[:.]?\s*([A-Za-z0-9]+)/i
 };
 
 // ─── Category Mapping ──────────────────────────────────────────────────────
@@ -96,6 +99,11 @@ function extractBalance(sms) {
     return null;
 }
 
+function extractReference(sms) {
+    const match = sms.match(PATTERNS.reference);
+    return match ? match[1].trim() : null;
+}
+
 // ─── Main Parser ───────────────────────────────────────────────────────────
 
 /**
@@ -109,6 +117,7 @@ function extractBalance(sms) {
  *   merchant_or_sender: string,
  *   category: string,
  *   balance_after: number|null,
+ *   reference_number: string|null,
  *   confidence: 'high'|'medium'|'low',
  *   reason: string
  * }}
@@ -139,6 +148,7 @@ function parseSms(rawSms) {
     const merchant_or_sender = extractMerchant(sms, type);
     const category = guessCategory(merchant_or_sender);
     const balance_after = extractBalance(sms);
+    const reference_number = extractReference(sms);
 
     // Confidence rating
     let confidence = 'high';
@@ -152,9 +162,10 @@ function parseSms(rawSms) {
         merchant_or_sender,
         category,
         balance_after,
+        reference_number,
         confidence,
         reason: 'Parsed successfully'
     };
 }
 
-module.exports = { parseSms, guessCategory, extractAmount, extractType };
+module.exports = { parseSms, guessCategory, extractAmount, extractType, extractReference };

@@ -9,7 +9,10 @@ const app = express();
 
 // ─── Security & Middleware ───────────────────
 app.use(helmet());
-app.use(cors({ origin: '*' }));
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',')
+    : '*';
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -22,19 +25,14 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // ─── Routes ─────────────────────────────────
-const authRoutes = require('./routes/auth');
-const transactionRoutes = require('./routes/transactions');
-const dashboardRoutes = require('./routes/dashboard');
-
-app.use('/api/auth', authRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+const aiRoutes = require('./routes/ai');
+app.use('/api/ai', aiRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
     res.json({
         success: true,
-        service: 'CampusCash API',
+        service: 'BudgetBuddy AI Proxy',
         version: '1.0.0',
         timestamp: new Date().toISOString()
     });
@@ -48,11 +46,9 @@ app.use(errorHandler);
 // ─── Start Server ────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`\n🚀 CampusCash API running on port ${PORT}`);
+    console.log(`\n🚀 BudgetBuddy AI Proxy running on port ${PORT}`);
     console.log(`   Health: http://localhost:${PORT}/health`);
-    console.log(`   Auth:   http://localhost:${PORT}/api/auth`);
-    console.log(`   Tx:     http://localhost:${PORT}/api/transactions`);
-    console.log(`   Dash:   http://localhost:${PORT}/api/dashboard\n`);
+    console.log(`   AI:     http://localhost:${PORT}/api/ai\n`);
 });
 
 module.exports = app;
