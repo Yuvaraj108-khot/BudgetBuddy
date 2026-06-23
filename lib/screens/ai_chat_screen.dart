@@ -178,29 +178,30 @@ class _AiChatScreenState extends State<AiChatScreen> {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.psychology_alt_rounded, size: 48, color: AppColors.primary),
               ),
-              child: const Icon(Icons.psychology_alt_rounded, size: 48, color: AppColors.primary),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'BudgetBuddy AI Coach',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Ask me questions about your monthly limits, top categories, and saving habits. I evaluate your logs securely.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
-            ),
-          ],
+              const SizedBox(height: 20),
+              const Text(
+                'BudgetBuddy AI Coach',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Ask me questions about your monthly limits, top categories, and saving habits. I evaluate your logs securely.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+              ),
+            ],
+          ),
         ),
       ),
     );

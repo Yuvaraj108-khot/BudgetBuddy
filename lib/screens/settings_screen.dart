@@ -241,7 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _promptRemovePin() {
-    final passwordController = TextEditingController();
+    final pinController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     showDialog(
@@ -254,13 +254,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Enter account password to verify configuration removal:'),
+              const Text('Enter your current PIN to verify configuration removal:'),
               const SizedBox(height: 12),
               TextFormField(
-                controller: passwordController,
+                controller: pinController,
                 obscureText: true,
-                decoration: const InputDecoration(hintText: 'Password'),
-                validator: (v) => v == null || v.isEmpty ? 'Password is required' : null,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(hintText: 'Current PIN'),
+                validator: (v) => v == null || v.isEmpty ? 'PIN is required' : null,
               ),
             ],
           ),
@@ -274,7 +275,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 final auth = Provider.of<AuthProvider>(context, listen: false);
-                final success = await auth.removePin(passwordController.text);
+                final success = await auth.removePin(pinController.text);
                 if (success && mounted) {
                   Navigator.of(ctx).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
