@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import '../storage/secure_storage.dart';
 
 class ApiClient {
-  // Use localhost (needs adb reverse tcp:3000 tcp:3000 for physical devices)
-  static const String baseUrl = 'http://localhost:3005/api';
+  // Hosted on Vercel so the AI proxy works even when PC is off
+  static const String baseUrl = 'https://backend-green-nine-56.vercel.app/api';
 
   static Future<Map<String, String>> _headers() async {
     final token = await SecureStorage.getToken();
