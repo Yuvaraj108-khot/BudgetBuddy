@@ -8,6 +8,8 @@ class SecureStorage {
   static const String _keyPinSet = 'is_pin_set';
   static const String _keyPinVerified = 'is_pin_verified';
   static const String _keySmsSync = 'is_sms_sync_enabled';
+  static const String _keyUserName = 'user_name';
+  static const String _keyUserEmail = 'user_email';
 
   // Tokens
   static Future<void> saveToken(String token) async {
@@ -24,6 +26,20 @@ class SecureStorage {
 
   static Future<String?> getRefreshToken() async {
     return await _storage.read(key: _keyRefreshToken);
+  }
+
+  // Profile
+  static Future<void> saveUserProfile(String name, String email) async {
+    await _storage.write(key: _keyUserName, value: name);
+    await _storage.write(key: _keyUserEmail, value: email);
+  }
+
+  static Future<String?> getUserName() async {
+    return await _storage.read(key: _keyUserName);
+  }
+
+  static Future<String?> getUserEmail() async {
+    return await _storage.read(key: _keyUserEmail);
   }
 
   // App PIN Settings

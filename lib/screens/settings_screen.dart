@@ -101,7 +101,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         )
                       ],
                     ),
-                  )
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit_outlined, color: AppColors.textSecondary),
+                    onPressed: _showEditProfileDialog,
+                  ),
                 ],
               ),
             ),
@@ -178,6 +182,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  void _showEditProfileDialog() {
+    final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
+    final nameController = TextEditingController(text: user?.name);
+    final emailController = TextEditingController(text: user?.email);
+    final formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        title: const Text('Edit Local Profile'),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(hintText: 'Full Name'),
+                validator: (v) => v == null || v.isEmpty ? 'Name is required' : null,
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(hintText: 'Email (Optional)'),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancel', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                final auth = Provider.of<AuthProvider>(context, listen: false);
+                await auth.updateProfile(nameController.text.trim(), emailController.text.trim());
+                if (mounted) {
+                  Navigator.of(ctx).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Profile updated'), backgroundColor: AppColors.success),
+                  );
+                }
+              }
+            },
+            child: const Text('Save'),
+          )
+        ],
       ),
     );
   }

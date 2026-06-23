@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/api/api_client.dart';
+import '../services/local_repository.dart';
 
 class ChatMessage {
   final String text;
@@ -36,8 +37,13 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      final repository = LocalRepository();
+      final now = DateTime.now();
+      final txs = await repository.getTransactionsByMonth(now.month, now.year);
+
       final response = await ApiClient.post('/ai/chat', {
         'query': text,
+        'transactions': txs.map((t) => t.toJson()).toList(),
       });
       final data = ApiClient.processResponse(response);
 

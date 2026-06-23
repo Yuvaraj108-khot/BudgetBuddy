@@ -4,6 +4,7 @@ import '../providers/auth_provider.dart';
 import '../core/theme/app_theme.dart';
 
 import 'pin_screen.dart';
+import 'profile_setup_screen.dart';
 import 'dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       case AuthState.unauthenticated:
       default:
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const PinScreen(mode: PinMode.setup)),
+          MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
         );
         break;
     }

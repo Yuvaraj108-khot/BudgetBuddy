@@ -33,8 +33,10 @@ class AuthProvider extends ChangeNotifier {
     try {
       final pinHash = await _repository.getPinHash();
       
-      // Dummy user since we removed backend user auth
-      _currentUser = User(id: 1, name: 'Local User', email: 'local@device.com', hasPin: pinHash != null);
+      final name = await SecureStorage.getUserName() ?? 'Local User';
+      final email = await SecureStorage.getUserEmail() ?? 'local@device.com';
+      
+      _currentUser = User(id: 1, name: name, email: email, hasPin: pinHash != null);
 
       if (pinHash != null) {
         final verified = await SecureStorage.isPinVerified();
@@ -64,7 +66,9 @@ class AuthProvider extends ChangeNotifier {
       await SecureStorage.setPinConfigured(true);
       await SecureStorage.setPinVerified(true);
       
-      _currentUser = User(id: 1, name: 'Local User', email: 'local@device.com', hasPin: true);
+      final name = await SecureStorage.getUserName() ?? 'Local User';
+      final email = await SecureStorage.getUserEmail() ?? 'local@device.com';
+      _currentUser = User(id: 1, name: name, email: email, hasPin: true);
       _state = AuthState.authenticated;
       
       return true;
@@ -117,7 +121,9 @@ class AuthProvider extends ChangeNotifier {
         await SecureStorage.setPinConfigured(false);
         await SecureStorage.setPinVerified(false);
         
-        _currentUser = User(id: 1, name: 'Local User', email: 'local@device.com', hasPin: false);
+        final name = await SecureStorage.getUserName() ?? 'Local User';
+        final email = await SecureStorage.getUserEmail() ?? 'local@device.com';
+        _currentUser = User(id: 1, name: name, email: email, hasPin: false);
         return true;
       } else {
         _errorMessage = 'Incorrect PIN';
@@ -135,6 +141,13 @@ class AuthProvider extends ChangeNotifier {
   Future<void> logout() async {
     await SecureStorage.setPinVerified(false);
     _state = AuthState.pinLocked;
+    notifyListeners();
+  }
+
+  Future<void> updateProfile(String name, String email) async {
+    await SecureStorage.saveUserProfile(name, email);
+    final pinHash = await _repository.getPinHash();
+    _currentUser = User(id: 1, name: name, email: email, hasPin: pinHash != null);
     notifyListeners();
   }
 

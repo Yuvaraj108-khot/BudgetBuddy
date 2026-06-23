@@ -174,9 +174,10 @@ class _AiChatScreenState extends State<AiChatScreen> {
   }
 
   Widget _buildWelcomeState() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
+    return SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
